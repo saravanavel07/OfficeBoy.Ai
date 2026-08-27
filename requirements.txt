@@ -1,0 +1,5 @@
+# OfficeBoy.ai — Python Dependencies
+flask>=2.3.0
+requests>=2.31.0
+google-genai>=0.1.1
+typing-extensions>=4.8.0

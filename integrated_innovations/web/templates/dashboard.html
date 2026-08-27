@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INTEGRATED INNOVATIONS — Live AI Agency Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Ambient Drifting Background Blobs -->
+  <div class="ambient-blob blob-pink"></div>
+  <div class="ambient-blob blob-blue"></div>
+
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-glyph">
+          <span>II</span>
+        </div>
+        <div>
+          <h1 class="brand-title">INTEGRATED <span>INNOVATIONS</span></h1>
+          <p class="brand-subtitle">Autonomous 1-MD + 5-Specialist Architecture & Shared Memory</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="status-pill" id="global-status-pill">
+          <span class="status-dot pulsing"></span>
+          <span id="global-status-text">SYSTEM ONLINE</span>
+        </div>
+
+        <button class="btn btn-primary" onclick="openNewBriefModal()">
+          + New Client Brief
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Managing Director (MD) Full-Width Card -->
+      <section class="card md-card" id="md-card">
+        <div class="card-header">
+          <div class="agent-profile">
+            <div class="agent-avatar-wrapper md-avatar-glow">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Aegis" class="agent-avatar">
+            </div>
+            <div>
+              <div class="agent-name-row">
+                <h2 class="agent-name">Aegis</h2>
+                <span class="role-badge badge-md">MANAGING DIRECTOR</span>
+              </div>
+              <p class="agent-title">Strategic Orchestrator & Deliverable Synthesizer</p>
+            </div>
+          </div>
+
+          <div class="card-status-indicator">
+            <span class="status-dot dot-pink" id="md-dot"></span>
+            <span class="status-label" id="md-status">ORCHESTRATING</span>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="task-box">
+            <span class="task-label">CURRENT DIRECTIVE:</span>
+            <p class="task-text typing" id="md-task">Ingesting client project brief. Decomposing requirements and scheduling specialist subtasks...</p>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill fill-pink" id="md-progress" style="width: 15%"></div>
+            </div>
+            <span class="progress-val" id="md-progress-text">15%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 Specialist Employees Grid -->
+      <div class="section-title-row">
+        <h3>SPECIALIST AGENT CLUSTER</h3>
+        <span>5 Autonomous Workers Online</span>
+      </div>
+
+      <div class="employee-grid">
+        <!-- Developer (Vega) -->
+        <div class="card employee-card" id="card-developer">
+          <div class="employee-header">
+            <div class="agent-avatar-wrapper dev-glow">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" alt="Vega" class="agent-avatar">
+            </div>
+            <div class="employee-meta">
+              <h4>Vega</h4>
+              <span class="role-badge badge-dev">DEVELOPER</span>
+            </div>
+            <span class="status-dot dot-blue" id="dev-dot"></span>
+          </div>
+          <p class="employee-title">Python 3.12 / AsyncIO Systems</p>
+          <div class="employee-task-box">
+            <p id="dev-task">Standby for code generation</p>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill fill-blue" id="dev-progress" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Designer (Nova) -->
+        <div class="card employee-card" id="card-designer">
+          <div class="employee-header">
+            <div class="agent-avatar-wrapper designer-glow">
+              <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80" alt="Nova" class="agent-avatar">
+            </div>
+            <div class="employee-meta">
+              <h4>Nova</h4>
+              <span class="role-badge badge-designer">DESIGNER</span>
+            </div>
+            <span class="status-dot dot-purple" id="designer-dot"></span>
+          </div>
+          <p class="employee-title">UX/UI & Design System Tokens</p>
+          <div class="employee-task-box">
+            <p id="designer-task">Standby for UX tokens</p>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill fill-purple" id="designer-progress" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Reviewer (Iris) -->
+        <div class="card employee-card" id="card-reviewer">
+          <div class="employee-header">
+            <div class="agent-avatar-wrapper reviewer-glow">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt="Iris" class="agent-avatar">
+            </div>
+            <div class="employee-meta">
+              <h4>Iris</h4>
+              <span class="role-badge badge-reviewer">REVIEWER</span>
+            </div>
+            <span class="status-dot dot-green" id="reviewer-dot"></span>
+          </div>
+          <p class="employee-title">QA & Security Verification</p>
+          <div class="employee-task-box">
+            <p id="reviewer-task">Standby for QA audit</p>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill fill-green" id="reviewer-progress" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Writer (Sable) -->
+        <div class="card employee-card" id="card-writer">
+          <div class="employee-header">
+            <div class="agent-avatar-wrapper writer-glow">
+              <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80" alt="Sable" class="agent-avatar">
+            </div>
+            <div class="employee-meta">
+              <h4>Sable</h4>
+              <span class="role-badge badge-writer">WRITER</span>
+            </div>
+            <span class="status-dot dot-cyan" id="writer-dot"></span>
+          </div>
+          <p class="employee-title">Documentation & Client Guides</p>
+          <div class="employee-task-box">
+            <p id="writer-task">Standby for documentation</p>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill fill-cyan" id="writer-progress" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Marketer (Rune) -->
+        <div class="card employee-card" id="card-marketer">
+          <div class="employee-header">
+            <div class="agent-avatar-wrapper marketer-glow">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Rune" class="agent-avatar">
+            </div>
+            <div class="employee-meta">
+              <h4>Rune</h4>
+              <span class="role-badge badge-marketer">MARKETER</span>
+            </div>
+            <span class="status-dot dot-rose" id="marketer-dot"></span>
+          </div>
+          <p class="employee-title">Go-to-Market Strategy & Copy</p>
+          <div class="employee-task-box">
+            <p id="marketer-task">Standby for GTM positioning</p>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill fill-rose" id="marketer-progress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal Company Log -->
+      <section class="card log-card">
+        <div class="log-header">
+          <div class="log-title-row">
+            <span class="terminal-icon">&gt;_</span>
+            <h3>SHARED MEMORY COMPANY LOG (company_log.json)</h3>
+          </div>
+          <span class="log-badge" id="event-count-badge">0 EVENTS</span>
+        </div>
+
+        <div class="log-terminal" id="log-terminal">
+          <div class="log-entry system-entry">
+            <span class="log-time">[00:00:00]</span>
+            <span class="log-tag">SYSTEM</span>
+            <span class="log-msg">INTEGRATED INNOVATIONS multi-agent bus listening for events...</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/dashboard.js"></script>
+</body>
+</html>

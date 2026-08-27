@@ -1,0 +1,6 @@
+{
+  "name": "OfficeBoy",
+  "description": "Autonomous AI Office Assistant Workspace featuring real-time AI agents collaborating live with shared memory and interactive deliverables.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
