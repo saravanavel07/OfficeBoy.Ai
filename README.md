@@ -1,177 +1,221 @@
-# OfficeBoy.ai 🤖
-### Autonomous AI Office Assistant & Multi-Agent Operating System (Pure Python)
+# OfficeBoy.Ai
 
-```
-               .---.
-              /_____\
-             (  . .  )     OfficeBoy.ai
-              )  =  (      Autonomous AI Office Assistant
-             /`-----'\     1 Managing Director + 5 Specialist Agents
-            /  |   |  \
-           (   |___|   )
-            \_________/
-             / /   \ \
-            (_/     \_)
-```
+Professional, AI‑driven toolkit for automating common office and productivity workflows.
+
+OfficeBoy.Ai combines TypeScript services (frontend / Node) and Python modules (AI/automation scripts) to provide a flexible platform for tasks such as document summarization, meeting-note generation, email drafting, invoice processing, and other administrative automations.
 
 ---
 
-## 🌟 Overview
+## Table of Contents
 
-**OfficeBoy.ai** is an autonomous multi-agent office operating system built entirely in **pure Python**. It simulates an elite digital agency and enterprise engineering squad comprising **1 Managing Director (Aegis)** and **5 Specialist Employee Agents** who autonomously collaborate, communicate over an event bus, maintain shared memory, and produce real-world production-ready deliverables.
+- [About](#about)
+- [Features](#features)
+- [Tech stack](#tech-stack)
+- [Quick start](#quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Install](#install)
+  - [Configuration](#configuration)
+  - [Run locally](#run-locally)
+- [Usage examples](#usage-examples)
+- [Project structure](#project-structure)
+- [Contributing](#contributing)
+- [Testing](#testing)
+- [License](#license)
+- [Contact](#contact)
 
 ---
 
-## 👥 The Autonomous Agent Roster
+## About
 
-| Agent Name | Role | Primary Domain | Core Deliverable |
-| :--- | :--- | :--- | :--- |
-| **Aegis** | **Managing Director** | Strategic Planning & Executive Oversight | `EXECUTIVE_BRIEF.md` |
-| **Cipher** | **Lead Architect & Developer** | Python/TypeScript, Data Pipelines & Algorithms | `core_engine.py` |
-| **Scribe** | **Technical Writer** | System Documentation, API Specs & ADRs | `TECHNICAL_SPEC.md` |
-| **Iris** | **Creative Director & UX** | Design Systems, Wireframes & Component Specs | `DESIGN_SYSTEM.md` |
-| **Pulse** | **Growth & Market Strategist**| ICP Profiling, GTM Strategy & Launch Funnels | `GTM_STRATEGY.md` |
-| **Sentinel**| **Lead QA & Security Auditor**| Vulnerability Scans, Code Review & Audits | `QA_SECURITY_AUDIT.md` |
+OfficeBoy.Ai is an extensible, multi-language codebase that helps teams automate routine office workflows using LLMs and small automation scripts. It is intended to be used as:
+
+- a library to embed automation features into other apps,
+- a CLI for ad-hoc automation runs, and
+- an optional web dashboard for live monitoring.
+
+This README is a concise, professional starting point — update the sections marked with [REPLACE] to reflect project-specific commands, keys, or services.
 
 ---
 
-## ⚡ Quickstart
+## Features
 
-### 1. Installation
+- Multi-agent orchestration (manager + specialist agents)
+- Plug-and-play AI backends (OpenAI / Anthropic / Gemini / local)
+- Generate deliverables: code scaffolds, technical specs, design tokens, GTM docs
+- CLI and (optional) web dashboard for live telemetry
+- Modular: mix TypeScript frontend/services with Python AI modules
 
-Clone the repository and install the lightweight dependencies:
+---
+
+## Tech stack
+
+- Languages: TypeScript (~75%), Python (~19%), CSS/HTML/JS
+- Backend: Python (async orchestration, LLM integration)
+- Frontend / services: TypeScript (React / Node / Next.js — replace if different)
+- AI integrations: OpenAI, Anthropic, Google Gemini (replace with configured providers)
+
+---
+
+## Quick start
+
+### Prerequisites
+
+- Node.js 16+ and a package manager (npm, pnpm, or yarn) if the repo includes TypeScript services
+- Python 3.8+
+- Git
+- Optional: Docker for containerized runs
+
+### Install
+
+1. Clone the repository
 
 ```bash
-git clone https://github.com/your-org/officeboy.git
-cd officeboy
+git clone https://github.com/saravanavel07/OfficeBoy.Ai.git
+cd OfficeBoy.Ai
+```
+
+2. Install JS/TS deps (if present)
+
+```bash
+# from repo root or the frontend/service folder
+npm install
+# or
+# pnpm install
+# or
+# yarn install
+```
+
+3. Install Python deps
+
+```bash
+python -m venv .venv
+source .venv/bin/activate      # macOS / Linux
+.\.venv\\Scripts\\activate  # Windows (PowerShell)
 pip install -r requirements.txt
 ```
 
-*(Note: OfficeBoy is zero-dependency compatible and can run entirely using Python standard libraries in offline simulation mode!)*
+### Configuration
 
----
-
-### 2. Run via Command Line Interface (CLI)
-
-Dispatch an autonomous sprint in 1 command:
+Copy the example environment file and set provider keys:
 
 ```bash
-# Basic run with interactive prompt
-python main.py
-
-# Direct brief dispatch
-python main.py "Build a real-time invoice processing pipeline with fraud detection"
-
-# Custom options
-python main.py "Crypto Anomaly Engine" --client "Apex Ventures" --budget "$50,000" --output my_deliverables/
+cp .env.example .env
+# Edit .env and add API keys like OPENAI_API_KEY, GEMINI_API_KEY, or ANTHROPIC_API_KEY
 ```
 
----
+Common environment variables
 
-### 3. Run via Embedded Web Dashboard
+- OPENAI_API_KEY — OpenAI API key
+- GEMINI_API_KEY — Google Gemini key (if used)
+- ANTHROPIC_API_KEY — Anthropic key (if used)
+- DATABASE_URL — optional
+- NODE_ENV — development|production
 
-Launch the built-in live browser dashboard:
+### Run locally
+
+Start the Python orchestrator (example):
 
 ```bash
+# run the CLI orchestrator
+python main.py "Summarize the attached meeting notes and draft action items"
+
+# run with web dashboard (if included)
 python main.py --web --port 5000
 ```
-Then navigate to `http://localhost:5000` to dispatch sprints and view live agent telemetry.
+
+Start frontend / TypeScript services (if present):
+
+```bash
+npm run dev
+# or
+npm start
+```
 
 ---
 
-### 4. Use as a Python Library in Your Code
+## Usage examples
+
+API example (replace endpoints with actual server routes):
+
+```bash
+curl -X POST http://localhost:8000/api/summarize \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"text":"Long document text to summarize"}'
+```
+
+Python library example (replace class / function names if your code differs):
 
 ```python
 from officeboy import CompanyOrchestrator
-
-# Initialize the orchestrator
-orchestrator = CompanyOrchestrator(output_dir="output_deliverables")
-
-# Create a project brief
-brief = orchestrator.initialize_brief(
-    problem_statement="Develop a high-throughput webhook dispatcher with retry queues.",
-    client_name="Stripe Partner Network",
-    budget="$30,000"
-)
-
-# Run the sprint autonomously
-final_state = orchestrator.run_sprint(brief)
-
-# Inspect generated deliverables
-for deliverable in final_state.deliverables:
-    print(f"Generated: {deliverable.filename} by {deliverable.author_name}")
+orchestrator = CompanyOrchestrator(output_dir="output")
+brief = {"title": "Invoice automation", "details": "Extract invoice fields and store"}
+result = orchestrator.run_sprint(brief)
+print(result.summary)
 ```
 
 ---
 
-## 🧠 LLM Backends & Configuration
+## Project structure
 
-OfficeBoy supports multi-model reasoning engines via environment variables:
+Update to match the repository; this is a suggested layout based on files present:
 
-| Provider | Environment Variable | Default Model |
-| :--- | :--- | :--- |
-| **Google Gemini** *(Recommended)* | `GEMINI_API_KEY` | `gemini-2.5-flash` |
-| **Anthropic Claude** | `ANTHROPIC_API_KEY` | `claude-3-7-sonnet-20250219` |
-| **OpenAI** | `OPENAI_API_KEY` | `gpt-4o` |
-| **Local Offline** | *(None required)* | High-Grade Deterministic Engine |
+.
+├─ main.py                # CLI entrypoint
+├─ requirements.txt       # Python deps
+├─ package.json           # Node / TypeScript deps (if present)
+├─ officeboy/             # core Python package
+│  ├─ agents/             # agent implementations
+│  ├─ core/               # orchestrator, logging, utils
+│  └─ web/                # optional dashboard
+├─ frontend/              # TypeScript UI (if present)
+└─ README.md
+
+---
+
+## Contributing
+
+Contributions are welcome — please follow a simple workflow:
+
+1. Fork the repository.
+2. Create a branch: git checkout -b feat/your-feature
+3. Add tests and update docs.
+4. Open a Pull Request describing your changes.
+
+Add any linting, formatting, or commit message conventions here (e.g., Conventional Commits).
+
+---
+
+## Testing
+
+Run tests for the Python code (if tests exist):
 
 ```bash
-export GEMINI_API_KEY="your-gemini-api-key"
-python main.py "Enterprise KYC Verification Pipeline"
+pytest
+```
+
+Run JS/TS tests (if present):
+
+```bash
+npm test
 ```
 
 ---
 
-## 📁 Repository Structure
+## License
 
-```
-.
-├── main.py                       # Master CLI entry point
-├── run.py                        # One-line launcher
-├── requirements.txt              # Python dependencies
-├── README.md                     # Comprehensive documentation
-│
-└── officeboy/                    # Core Python package
-    ├── __init__.py               # Package exports
-    ├── models.py                 # Dataclasses & type definitions
-    ├── cli.py                    # Interactive terminal interface
-    │
-    ├── agents/                   # Autonomous agent implementations
-    │   ├── __init__.py
-    │   ├── base_agent.py         # Universal multi-LLM base interface
-    │   ├── manager.py            # Aegis (Managing Director)
-    │   ├── developer.py          # Cipher (Lead Architect)
-    │   ├── writer.py             # Scribe (Technical Writer)
-    │   ├── designer.py           # Iris (Creative Director)
-    │   ├── marketer.py           # Pulse (Growth Strategist)
-    │   └── reviewer.py           # Sentinel (QA & Security Auditor)
-    │
-    ├── core/                     # Operating system engine
-    │   ├── __init__.py
-    │   ├── orchestrator.py       # Multi-agent sprint loop & stages
-    │   ├── company_log.py        # Event bus & message broadcasting
-    │   └── ascii_banner.py       # Terminal robot mascot art
-    │
-    └── web/                      # Embedded web server
-        ├── __init__.py
-        └── app.py                # Flask server & REST API
-```
+This project does not include an explicit license file in the repository snapshot I inspected. Add a LICENSE file (for example, MIT) and update this section accordingly.
 
 ---
 
-## 📦 Generated Output Deliverables
+## Contact
 
-When a sprint completes, OfficeBoy generates and writes 6 artifacts to disk:
+Maintainer: @saravanavel07
 
-1. **`core_engine.py`**: Production source code and algorithms.
-2. **`TECHNICAL_SPEC.md`**: Architectural blueprint and API contract.
-3. **`DESIGN_SYSTEM.md`**: Design tokens, component specs, and UX wireframes.
-4. **`GTM_STRATEGY.md`**: Market positioning, ICP targeting, and launch playbook.
-5. **`QA_SECURITY_AUDIT.md`**: Vulnerability assessment and quality scorecard.
-6. **`EXECUTIVE_BRIEF.md`**: Final executive sign-off from Aegis.
+For support or questions, please open an issue in this repository.
 
 ---
 
-## 🛡️ License
-
-MIT License. Designed with precision by **OfficeBoy.ai**.
+If you want, I can:
+- Tailor this README further to reflect exact commands from package.json and requirements.txt, or
+- Create a LICENSE file, CODE_OF_CONDUCT, CONTRIBUTING.md, and a .env.example template.
