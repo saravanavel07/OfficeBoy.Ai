@@ -30,6 +30,7 @@ OfficeBoy.ai brings project intake, an animated multi-agent workspace, and comma
 - **Shared activity log:** Follow workflow events, agent assignments, and deliverable updates.
 - **Deliverable views:** Review the generated project summary and specialist outputs in the workspace.
 - **Python command-line workflow:** Submit a project brief and export artifacts to a chosen directory.
+- **Live multi-agent dashboard:** Watch agent activity update in real time using the standalone `integrated_innovations/` Flask dashboard and its Server-Sent Events stream.
 - **Optional dashboards and AI integrations:** Run the Python Flask dashboard or use the TypeScript server's Gemini-backed agent endpoint.
 
 ## Architecture
@@ -39,9 +40,9 @@ The repository contains multiple related implementations:
 1. **React workspace (`src/`)** — a Vite-powered interactive workspace. Its agent workflow is currently driven by the client-side engine in `src/services/agentEngine.ts`.
 2. **TypeScript server (`server.ts`)** — serves the Vite app during development and static assets in production, and provides `/api/health` and `/api/agent/call` endpoints. The agent endpoint uses Google Gemini when `GEMINI_API_KEY` is configured and returns a simulated fallback response if it is not.
 3. **Python package (`officeboy/`)** — provides the CLI, workflow orchestration, typed project models, and Flask dashboard.
-4. **Additional Python implementation (`integrated_innovations/`)** — a standalone multi-agent workflow and dashboard with its own README and dependencies.
+4. **Additional Python implementation (`integrated_innovations/`)** — a standalone multi-agent workflow and live dashboard with its own README and dependencies.
 
-These entry points are not a single shared runtime. Use the instructions for the component you intend to run.
+These entry points are not a single shared runtime. Use the instructions for the component you intend to run. The real-time dashboard described below belongs to `integrated_innovations/`; it does not turn the React browser simulation into a live model workflow.
 
 ## Requirements
 
@@ -109,13 +110,28 @@ python main.py "Prepare a customer-support automation plan" \
   --output output_deliverables
 ```
 
-Launch the Flask dashboard separately:
+Launch the root Flask dashboard separately:
 
 ```bash
 python main.py --web --port 5000
 ```
 
 Then open `http://localhost:5000`. The dashboard command starts the web server; run the CLI workflow without `--web` when you want to execute a brief and generate deliverables.
+
+#### Watch agent work live in the standalone dashboard
+
+To see the standalone `integrated_innovations/` agents work and have the dashboard update live, first follow that implementation's setup instructions in [`integrated_innovations/README.md`](integrated_innovations/README.md) and install its dependencies. Then start the dashboard and run a project in separate terminals:
+
+```bash
+# Terminal 1: start the integrated innovations dashboard
+cd integrated_innovations
+python -m web.app
+
+# Terminal 2: from the integrated_innovations directory, run a project brief
+python main.py "Design a real-time crypto portfolio tracker"
+```
+
+Open `http://localhost:5000` to watch agent activity. The dashboard streams workflow events via Server-Sent Events and updates without a page reload. The standalone implementation also documents a combined `python main.py "..." --web` option; see its README for details. This live view applies to `integrated_innovations/` and is separate from the React workspace's client-side simulation and the root `officeboy/` dashboard.
 
 The standalone `integrated_innovations/` implementation has separate setup and run instructions in [`integrated_innovations/README.md`](integrated_innovations/README.md).
 
