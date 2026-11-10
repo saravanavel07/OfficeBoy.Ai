@@ -1,221 +1,206 @@
-# OfficeBoy.Ai
+# OfficeBoy.ai
 
-Professional, AI‑driven toolkit for automating common office and productivity workflows.
+**An AI-powered office workspace for coordinating specialist agents, tracking project workflows, and producing structured deliverables.**
 
-OfficeBoy.Ai combines TypeScript services (frontend / Node) and Python modules (AI/automation scripts) to provide a flexible platform for tasks such as document summarization, meeting-note generation, email drafting, invoice processing, and other administrative automations.
+OfficeBoy.ai brings project intake, an animated multi-agent workspace, and command-line automation together in one repository. The web interface presents a step-by-step workflow led by a Managing Director and supported by Developer, Designer, Reviewer, Writer, and Marketer roles. A Python implementation provides a CLI and optional Flask dashboard, while the TypeScript server exposes a Gemini-backed agent endpoint.
 
----
+> **Please note:** The browser workspace currently advances through a client-side workflow simulation. The Python CLI and TypeScript API are separate execution paths; the UI simulation should not be mistaken for live model inference. Configure the relevant provider key to use model-backed features in the corresponding backend.
 
-## Table of Contents
+## Contents
 
-- [About](#about)
 - [Features](#features)
-- [Tech stack](#tech-stack)
-- [Quick start](#quick-start)
-  - [Prerequisites](#prerequisites)
-  - [Install](#install)
-  - [Configuration](#configuration)
-  - [Run locally](#run-locally)
-- [Usage examples](#usage-examples)
-- [Project structure](#project-structure)
+- [Architecture](#architecture)
+- [Requirements](#requirements)
+- [Getting started](#getting-started)
+  - [Web workspace and TypeScript server](#web-workspace-and-typescript-server)
+  - [Python CLI and dashboard](#python-cli-and-dashboard)
+- [Configuration](#configuration)
+- [API endpoints](#api-endpoints)
+- [Project layout](#project-layout)
+- [Development](#development)
+- [Security](#security)
 - [Contributing](#contributing)
-- [Testing](#testing)
 - [License](#license)
-- [Contact](#contact)
-
----
-
-## About
-
-OfficeBoy.Ai is an extensible, multi-language codebase that helps teams automate routine office workflows using LLMs and small automation scripts. It is intended to be used as:
-
-- a library to embed automation features into other apps,
-- a CLI for ad-hoc automation runs, and
-- an optional web dashboard for live monitoring.
-
-This README is a concise, professional starting point — update the sections marked with [REPLACE] to reflect project-specific commands, keys, or services.
-
----
 
 ## Features
 
-- Multi-agent orchestration (manager + specialist agents)
-- Plug-and-play AI backends (OpenAI / Anthropic / Gemini / local)
-- Generate deliverables: code scaffolds, technical specs, design tokens, GTM docs
-- CLI and (optional) web dashboard for live telemetry
-- Modular: mix TypeScript frontend/services with Python AI modules
+- **Animated workflow workspace:** Start, pause, step through, reset, and adjust the speed of a project workflow.
+- **Specialist agent team:** Coordinate a Managing Director with Developer, Designer, Reviewer, Writer, and Marketer roles.
+- **Project intake:** Review and manage sample client requests, or create a custom brief.
+- **Shared activity log:** Follow workflow events, agent assignments, and deliverable updates.
+- **Deliverable views:** Review the generated project summary and specialist outputs in the workspace.
+- **Python command-line workflow:** Submit a project brief and export artifacts to a chosen directory.
+- **Optional dashboards and AI integrations:** Run the Python Flask dashboard or use the TypeScript server's Gemini-backed agent endpoint.
 
----
+## Architecture
 
-## Tech stack
+The repository contains multiple related implementations:
 
-- Languages: TypeScript (~75%), Python (~19%), CSS/HTML/JS
-- Backend: Python (async orchestration, LLM integration)
-- Frontend / services: TypeScript (React / Node / Next.js — replace if different)
-- AI integrations: OpenAI, Anthropic, Google Gemini (replace with configured providers)
+1. **React workspace (`src/`)** — a Vite-powered interactive workspace. Its agent workflow is currently driven by the client-side engine in `src/services/agentEngine.ts`.
+2. **TypeScript server (`server.ts`)** — serves the Vite app during development and static assets in production, and provides `/api/health` and `/api/agent/call` endpoints. The agent endpoint uses Google Gemini when `GEMINI_API_KEY` is configured and returns a simulated fallback response if it is not.
+3. **Python package (`officeboy/`)** — provides the CLI, workflow orchestration, typed project models, and Flask dashboard.
+4. **Additional Python implementation (`integrated_innovations/`)** — a standalone multi-agent workflow and dashboard with its own README and dependencies.
 
----
+These entry points are not a single shared runtime. Use the instructions for the component you intend to run.
 
-## Quick start
+## Requirements
 
-### Prerequisites
-
-- Node.js 16+ and a package manager (npm, pnpm, or yarn) if the repo includes TypeScript services
-- Python 3.8+
+- Node.js 18 or newer and npm (or another compatible Node package manager)
+- Python 3.10 or newer
 - Git
-- Optional: Docker for containerized runs
+- A Google Gemini API key for live Gemini responses from the TypeScript agent endpoint; provider keys may also be used by Python features, depending on their configuration
 
-### Install
+## Getting started
 
-1. Clone the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/saravanavel07/OfficeBoy.Ai.git
 cd OfficeBoy.Ai
 ```
 
-2. Install JS/TS deps (if present)
+### Web workspace and TypeScript server
+
+Install the Node dependencies and start the development server:
 
 ```bash
-# from repo root or the frontend/service folder
 npm install
-# or
-# pnpm install
-# or
-# yarn install
-```
-
-3. Install Python deps
-
-```bash
-python -m venv .venv
-source .venv/bin/activate      # macOS / Linux
-.\.venv\\Scripts\\activate  # Windows (PowerShell)
-pip install -r requirements.txt
-```
-
-### Configuration
-
-Copy the example environment file and set provider keys:
-
-```bash
-cp .env.example .env
-# Edit .env and add API keys like OPENAI_API_KEY, GEMINI_API_KEY, or ANTHROPIC_API_KEY
-```
-
-Common environment variables
-
-- OPENAI_API_KEY — OpenAI API key
-- GEMINI_API_KEY — Google Gemini key (if used)
-- ANTHROPIC_API_KEY — Anthropic key (if used)
-- DATABASE_URL — optional
-- NODE_ENV — development|production
-
-### Run locally
-
-Start the Python orchestrator (example):
-
-```bash
-# run the CLI orchestrator
-python main.py "Summarize the attached meeting notes and draft action items"
-
-# run with web dashboard (if included)
-python main.py --web --port 5000
-```
-
-Start frontend / TypeScript services (if present):
-
-```bash
 npm run dev
-# or
+```
+
+Open the local address reported by the server (the Express server defaults to `http://localhost:3000`). The workspace can be run without a Gemini key; the browser workflow itself is a simulation. Set `GEMINI_API_KEY` to enable Gemini responses from `/api/agent/call`.
+
+To build the frontend and bundled server for production:
+
+```bash
+npm run build
 npm start
 ```
 
----
+The production server serves the Vite build from `dist/` and listens on port `3000`.
 
-## Usage examples
+### Python CLI and dashboard
 
-API example (replace endpoints with actual server routes):
+Create and activate a virtual environment, then install the root Python dependencies:
 
 ```bash
-curl -X POST http://localhost:8000/api/summarize \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
+python -m venv .venv
+
+# macOS / Linux
+source .venv/bin/activate
+
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+
+pip install -r requirements.txt
+```
+
+Run a project brief through the Python CLI:
+
+```bash
+python main.py "Build an invoice-processing workflow with review and reporting deliverables"
+```
+
+The CLI accepts options for the client, budget, deadline, output directory, and simulated delay. See `python main.py --help` for the available arguments. For example:
+
+```bash
+python main.py "Prepare a customer-support automation plan" \
+  --client "Example Company" \
+  --output output_deliverables
+```
+
+Launch the Flask dashboard separately:
+
+```bash
+python main.py --web --port 5000
+```
+
+Then open `http://localhost:5000`. The dashboard command starts the web server; run the CLI workflow without `--web` when you want to execute a brief and generate deliverables.
+
+The standalone `integrated_innovations/` implementation has separate setup and run instructions in [`integrated_innovations/README.md`](integrated_innovations/README.md).
+
+## Configuration
+
+### TypeScript Gemini endpoint
+
+Set the key in the environment before starting the server. For local development, you can create a `.env` file in the repository root (do not commit it):
+
+```dotenv
+GEMINI_API_KEY=your-gemini-api-key
+```
+
+The server loads environment variables through `dotenv` dependencies. Keep API keys on the server side and out of browser code.
+
+### Python AI providers
+
+The Python implementation supports provider integrations through its agent configuration. Set only the provider key required by the implementation you are running, for example:
+
+```bash
+export GEMINI_API_KEY="your-gemini-api-key"
+# or
+export ANTHROPIC_API_KEY="your-anthropic-api-key"
+# or
+export OPENAI_API_KEY="your-openai-api-key"
+```
+
+On Windows PowerShell, use `$env:GEMINI_API_KEY="your-gemini-api-key"` (replace the variable name for a different provider). Consult the Python agent implementation and `integrated_innovations/README.md` for provider-specific details.
+
+## API endpoints
+
+The TypeScript server exposes these routes:
+
+- `GET /api/health` — returns service status and whether `GEMINI_API_KEY` is configured.
+- `POST /api/agent/call` — accepts an agent role, prompt, and optional context. When configured, the server sends the request to Gemini.
+
+Example request:
+
+```bash
+curl -X POST http://localhost:3000/api/agent/call \
   -H "Content-Type: application/json" \
-  -d '{"text":"Long document text to summarize"}'
+  -d '{"role":"Developer","prompt":"Outline a safe approach to processing invoice data."}'
 ```
 
-Python library example (replace class / function names if your code differs):
+Do not include secrets in request bodies or commit them to the repository.
 
-```python
-from officeboy import CompanyOrchestrator
-orchestrator = CompanyOrchestrator(output_dir="output")
-brief = {"title": "Invoice automation", "details": "Extract invoice fields and store"}
-result = orchestrator.run_sprint(brief)
-print(result.summary)
-```
+## Project layout
 
----
-
-## Project structure
-
-Update to match the repository; this is a suggested layout based on files present:
-
+```text
 .
-├─ main.py                # CLI entrypoint
-├─ requirements.txt       # Python deps
-├─ package.json           # Node / TypeScript deps (if present)
-├─ officeboy/             # core Python package
-│  ├─ agents/             # agent implementations
-│  ├─ core/               # orchestrator, logging, utils
-│  └─ web/                # optional dashboard
-├─ frontend/              # TypeScript UI (if present)
-└─ README.md
+├── src/                         # React workspace, components, data, and simulation engine
+├── server.ts                    # Express + Vite server and Gemini agent endpoint
+├── package.json                 # Node scripts and dependencies
+├── officeboy/                   # Python package, CLI, orchestration, and dashboard
+├── main.py                      # Python CLI entry point
+├── requirements.txt             # Root Python dependencies
+├── integrated_innovations/      # Standalone Python multi-agent implementation
+└── output_deliverables/         # Example/generated deliverable files
+```
 
----
+## Development
+
+Available Node scripts:
+
+```bash
+npm run dev      # Start the TypeScript/Vite development server
+npm run build    # Build the frontend and bundle the server
+npm start        # Start the production server after building
+npm run preview  # Preview the Vite frontend build
+npm run lint     # Run TypeScript checks (tsc --noEmit)
+```
+
+No automated test command is currently defined in the root `package.json`.
+
+## Security
+
+- Never commit `.env` files, API keys, or other credentials.
+- Keep provider keys in server-side environment variables; do not expose them in frontend code.
+- Review generated code and deliverables before using them in production or with sensitive data.
+- Treat AI-generated output as a draft that requires appropriate human review.
 
 ## Contributing
 
-Contributions are welcome — please follow a simple workflow:
-
-1. Fork the repository.
-2. Create a branch: git checkout -b feat/your-feature
-3. Add tests and update docs.
-4. Open a Pull Request describing your changes.
-
-Add any linting, formatting, or commit message conventions here (e.g., Conventional Commits).
-
----
-
-## Testing
-
-Run tests for the Python code (if tests exist):
-
-```bash
-pytest
-```
-
-Run JS/TS tests (if present):
-
-```bash
-npm test
-```
-
----
+Contributions are welcome. For substantial changes, open an issue to discuss the proposed approach before submitting a pull request. Please include a clear description of the change and any relevant setup or verification steps.
 
 ## License
 
-This project does not include an explicit license file in the repository snapshot I inspected. Add a LICENSE file (for example, MIT) and update this section accordingly.
-
----
-
-## Contact
-
-Maintainer: @saravanavel07
-
-For support or questions, please open an issue in this repository.
-
----
-
-If you want, I can:
-- Tailor this README further to reflect exact commands from package.json and requirements.txt, or
-- Create a LICENSE file, CODE_OF_CONDUCT, CONTRIBUTING.md, and a .env.example template.
+No license file is currently included in this repository. Unless a license is added, standard copyright restrictions apply; please contact the repository owner before redistributing or reusing the code.
